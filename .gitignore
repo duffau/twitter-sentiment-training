@@ -1,5 +1,10 @@
-# Virtual environment
+# Virtual environment and IDE
 /venv
+/.idea
 
 # Secret settings
 secret_settings.py
+
+# Training and model data
+*.json
+*.csv
