@@ -8,3 +8,6 @@ secret_settings.py
 # Training and model data
 *.json
 *.csv
+*.txt
+*.bin
+*.vec
