@@ -43,7 +43,7 @@ def get_recent_tweets(auth, query, to_date=None, max_count=1000, language='en', 
             tweet_batch = get_recent_tweets_page(auth, query, since_id=min_id, max_id=max_id - 1, to_date=to_date,
                                                  count_per_page=100, language=language, result_type=result_type,
                                                  tweet_mode=tweet_mode).json()
-        if tweet_batch['errors']:
+        if tweet_batch.get('errors', None):
             raise ValueError('API error: {}'.format(tweet_batch['errors']))
         all_ids = [tweet['id'] for tweet in tweet_batch['statuses']]
         max_id = max(all_ids)

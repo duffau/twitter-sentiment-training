@@ -1,6 +1,7 @@
 from requests_oauthlib import OAuth1
 from twitter_api.twitter_api import get_recent_tweets
 import secret_settings as ss
+import traceback
 import csv
 
 auth = OAuth1(ss.TWITTER_PUBLIC_CONSUMER_KEY, ss.TWITTER_SECRET_CONSUMER_KEY, ss.TWTTER_PUBLIC_ACCESS_TOKEN, ss.TWTTER_SECRET_ACCESS_TOKEN)
@@ -19,7 +20,7 @@ with open('./data/twitter_text.csv', 'w', encoding='utf-8') as csv_file:
     text_key = 'full_text' if tweet_mode == 'extended' else 'text'
 
     try:
-        for tweet_batch in get_recent_tweets(auth, query, max_count=1000, language='en', tweet_mode=tweet_mode):
+        for tweet_batch in get_recent_tweets(auth, query, max_count=6000, language='en', tweet_mode=tweet_mode):
                 for tweet in tweet_batch['statuses']:
                     user = tweet['user']
                     if not tweet.get('retweeted_status', None) \
@@ -33,5 +34,5 @@ with open('./data/twitter_text.csv', 'w', encoding='utf-8') as csv_file:
                         })
                         tweet_count += 1
     except Exception as e:
-        print(e)
+        traceback.print_exc()
 print('Number of tweets: {}'.format(tweet_count))
