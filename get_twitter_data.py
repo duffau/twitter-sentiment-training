@@ -11,7 +11,7 @@ query = '#bitcoin'
 tweet_count = 0
 with open('./data/twitter_text.csv', 'w', encoding='utf-8') as csv_file:
     dict_writer = csv.DictWriter(csv_file,
-                                 fieldnames=('created_at', 'user_name', 'followers_count', 'text'),
+                                 fieldnames=('tweet_id', 'created_at', 'user_name', 'followers_count', 'text'),
                                  quoting=csv.QUOTE_NONNUMERIC)
     dict_writer.writeheader()
 
@@ -20,15 +20,16 @@ with open('./data/twitter_text.csv', 'w', encoding='utf-8') as csv_file:
     text_key = 'full_text' if tweet_mode == 'extended' else 'text'
 
     try:
-        for tweet_batch in get_recent_tweets(auth, query, max_count=6000, language='en', tweet_mode=tweet_mode):
+        for tweet_batch in get_recent_tweets(auth, query, max_count=5000, language='en',
+                                             tweet_mode=tweet_mode, result_type='mixed'):
                 for tweet in tweet_batch['statuses']:
                     user = tweet['user']
                     if not tweet.get('retweeted_status', None) \
                             and user.get('followers_count', 0) > followers_limit:
-
                         dict_writer.writerow({
+                            'tweet_id': tweet['id'],
                             'created_at': tweet['created_at'],
-                            'user_name': tweet['user']['screen_name'],
+                            'user_name': user['screen_name'],
                             'text': tweet[text_key],
                             'followers_count': user['followers_count']
                         })

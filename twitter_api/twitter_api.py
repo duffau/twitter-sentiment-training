@@ -19,9 +19,10 @@ def get_recent_tweets_page(auth, query,
         query_params['since_id'] = since_id
 
     if max_id or max_id == 0:
-        query_params['since_id'] = since_id
+        query_params['max_id'] = max_id
 
-    return requests.get(BASE_URL, params=query_params, auth=auth)
+    request = requests.get(BASE_URL, params=query_params, auth=auth)
+    return request
 
 
 def get_tweet_by_id(auth, id, tweet_mode='compat'):
@@ -33,6 +34,7 @@ def get_tweet_by_id(auth, id, tweet_mode='compat'):
 def get_recent_tweets(auth, query, to_date=None, max_count=1000, language='en', result_type='recent', tweet_mode='compat'):
     n_tweets_processed = 0
     n_tweets_in_batch = 1
+    min_id = None
 
     while n_tweets_processed < max_count or n_tweets_in_batch == 0:
         if n_tweets_processed == 0:
@@ -40,12 +42,15 @@ def get_recent_tweets(auth, query, to_date=None, max_count=1000, language='en', 
                                                  language=language, result_type=result_type,
                                                  tweet_mode=tweet_mode).json()
         else:
-            tweet_batch = get_recent_tweets_page(auth, query, since_id=min_id, max_id=max_id - 1, to_date=to_date,
+            tweet_batch = get_recent_tweets_page(auth, query, max_id=min_id, to_date=to_date,
                                                  count_per_page=100, language=language, result_type=result_type,
                                                  tweet_mode=tweet_mode).json()
+
         if tweet_batch.get('errors', None):
             raise ValueError('API error: {}'.format(tweet_batch['errors']))
         all_ids = [tweet['id'] for tweet in tweet_batch['statuses']]
+        sorted_ids = sorted(all_ids)
+
         max_id = max(all_ids)
         min_id = min(all_ids)
         n_tweets_in_batch = len(all_ids)
