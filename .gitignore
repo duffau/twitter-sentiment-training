@@ -1,6 +1,7 @@
 # Virtual environment and IDE
 /venv
 /.idea
+/__pycache__
 
 # Secret settings
 secret_settings.py
