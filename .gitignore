@@ -6,6 +6,9 @@
 # Secret settings
 secret_settings.py
 
+#Development scripts
+/dev
+
 # Training and model data
 *.zip
 *.json
