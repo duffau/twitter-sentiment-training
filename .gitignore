@@ -7,6 +7,7 @@
 secret_settings.py
 
 # Training and model data
+*.zip
 *.json
 *.csv
 *.txt
