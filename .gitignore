@@ -16,3 +16,8 @@ secret_settings.py
 *.txt
 *.bin
 *.vec
+*.npy
+*.pickle
+
+# Other data files
+*.png
