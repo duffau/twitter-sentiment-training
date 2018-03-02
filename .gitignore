@@ -1,13 +1,23 @@
 # Virtual environment and IDE
 /venv
 /.idea
+/__pycache__
 
 # Secret settings
 secret_settings.py
 
+#Development scripts
+/dev
+
 # Training and model data
+*.zip
 *.json
 *.csv
 *.txt
 *.bin
 *.vec
+*.npy
+*.pickle
+
+# Other data files
+*.png
