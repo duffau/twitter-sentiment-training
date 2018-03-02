@@ -6,17 +6,17 @@ import csv
 
 auth = OAuth1(ss.TWITTER_PUBLIC_CONSUMER_KEY, ss.TWITTER_SECRET_CONSUMER_KEY, ss.TWTTER_PUBLIC_ACCESS_TOKEN, ss.TWTTER_SECRET_ACCESS_TOKEN)
 
-query = '#bitcoin'
+query = 'bitcoin'
 
 tweet_count = 0
-with open('./data/twitter_text.csv', 'w', encoding='utf-8') as csv_file:
+with open('./data/twitter_text_no_hashtag.csv', 'w', encoding='utf-8') as csv_file:
     dict_writer = csv.DictWriter(csv_file,
                                  fieldnames=('tweet_id', 'created_at', 'user_name', 'followers_count', 'text'),
                                  quoting=csv.QUOTE_NONNUMERIC)
     dict_writer.writeheader()
 
     tweet_mode = 'extended'
-    followers_limit = 500
+    followers_limit = 1000
     text_key = 'full_text' if tweet_mode == 'extended' else 'text'
 
     try:
